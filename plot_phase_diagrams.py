@@ -10,7 +10,7 @@ delta = 1
 
 # equations
 def du_dt(u,v):
-    term_1 = alpha*u**2
+    term_1 = alpha*u**2*(1-u)
     term_2 = -beta*(u*v)*(gamma + u)
     return term_1+term_2
 
@@ -20,7 +20,7 @@ def dv_dt(u,v):
     return term_1 + term_2
 
 # setup plot
-fig = plt.figure(figsize=(5,5))
+fig = plt.figure(figsize=(5,6))
 fig.tight_layout(pad=5.0)
 fig.subplots_adjust(bottom=0.4)
 ax = fig.add_subplot(1,1,1)
