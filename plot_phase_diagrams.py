@@ -61,8 +61,8 @@ Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.002, headwidth=3, headlength=5)
 # plot nullclines
 null_1, = ax.plot(u,nullcline_1(u), color="b")
 null_2, = ax.plot(u,nullcline_2(u), color="orange")
-null_3 = ax.axvline(0, color="b")
-null_4 = ax.axhline(0, color="orange")
+null_3_vert = ax.axvline(0, color="b")
+null_4_horiz = ax.axhline(0, color="orange")
 
 # update plot function
 def update_plot(*args):
