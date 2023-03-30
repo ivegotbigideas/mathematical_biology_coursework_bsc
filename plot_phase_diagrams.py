@@ -19,10 +19,10 @@ def dv_dt(u,v):
     term_2 = -delta*u*v
     return term_1 + term_2
 
-def du_nullcline(u):
+def nullcline_1(u):
     return (1/beta)*(alpha*u*(1-u)*(gamma+u))
 
-def dv_nullcline(u):
+def nullcline_2(u):
     return 1-delta*u
 
 # setup plot
@@ -59,8 +59,10 @@ DU, DV, clrMap = prepare_derivative_data(U,V)
 Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.002, headwidth=3, headlength=5)
 
 # plot nullclines
-du_null, = ax.plot(u,du_nullcline(u))
-dv_null, = ax.plot(u,dv_nullcline(u))
+null_1, = ax.plot(u,nullcline_1(u), color="b")
+null_2, = ax.plot(u,nullcline_2(u), color="orange")
+null_3 = ax.axvline(0, color="b")
+null_4 = ax.axhline(0, color="orange")
 
 # update plot function
 def update_plot(*args):
@@ -79,16 +81,16 @@ def update_plot(*args):
     Q.set_UVC(DU, DV)
 
     # update nullcline data
-    du_null.set_data(u, du_nullcline(u))
-    dv_null.set_data(u, dv_nullcline(u))
+    null_1.set_data(u, nullcline_1(u))
+    null_2.set_data(u, nullcline_2(u))
 
     fig.canvas.draw()
 
 # sliders
-alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=1, valmax=3, valinit=alpha, valstep=0.01)
-beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=1, valmax=3, valinit=beta, valstep=0.01)
-gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=1, valmax=3, valinit=gamma, valstep=0.01)
-delta_slider = Slider(plt.axes([0.25, 0.25, 0.65, 0.03]), 'delta slider', valmin=1, valmax=3, valinit=delta, valstep=0.01)
+alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=0.001, valmax=3, valinit=alpha, valstep=0.01)
+beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=0.001, valmax=3, valinit=beta, valstep=0.01)
+gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=0.001, valmax=3, valinit=gamma, valstep=0.01)
+delta_slider = Slider(plt.axes([0.25, 0.25, 0.65, 0.03]), 'delta slider', valmin=0.001, valmax=3, valinit=delta, valstep=0.01)
 
 alpha_slider.on_changed(update_plot)
 beta_slider.on_changed(update_plot)
