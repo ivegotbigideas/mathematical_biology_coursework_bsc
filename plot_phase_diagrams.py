@@ -19,10 +19,18 @@ def dv_dt(u,v):
     term_2 = -delta*u*v
     return term_1 + term_2
 
+def du_nullcline(u):
+    return (1/beta)*(alpha*u*(1-u)*(gamma+u))
+
+def dv_nullcline(u):
+    return 1-delta*u
+
 # setup plot
 fig = plt.figure(figsize=(5,6))
 fig.subplots_adjust(bottom=0.35)
 ax = fig.add_subplot(1,1,1)
+ax.set_xlim(-0.05, 2.05)
+ax.set_ylim(-0.05, 2.05)
 
 # data preparation functions
 def prepare_derivative_data(U,V):
@@ -41,6 +49,20 @@ def prepare_derivative_data(U,V):
     DV /= clrMap
     return DU, DV, clrMap
 
+# prepare data
+u = np.linspace(0,2,30)
+v = np.linspace(0,2,30)
+U, V = np.meshgrid(u, v)
+DU, DV, clrMap = prepare_derivative_data(U,V)
+
+# plot quivers
+Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.002, headwidth=3, headlength=5)
+
+# plot nullclines
+du_null, = ax.plot(u,du_nullcline(u))
+dv_null, = ax.plot(u,dv_nullcline(u))
+
+# update plot function
 def update_plot(*args):
     # update network values
     global alpha
@@ -55,16 +77,12 @@ def update_plot(*args):
     # update derivative data
     DU, DV, clrMap = prepare_derivative_data(U,V)
     Q.set_UVC(DU, DV)
+
+    # update nullcline data
+    du_null.set_data(u, du_nullcline(u))
+    dv_null.set_data(u, dv_nullcline(u))
+
     fig.canvas.draw()
-
-# prepare data
-u = np.linspace(0,2,30)
-v = np.linspace(0,2,30)
-U, V = np.meshgrid(u, v)
-DU, DV, clrMap = prepare_derivative_data(U,V)
-
-# plot quivers
-Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.003, headwidth=3, headlength=5)
 
 # sliders
 alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=1, valmax=3, valinit=alpha, valstep=0.01)
