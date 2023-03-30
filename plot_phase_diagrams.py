@@ -11,7 +11,7 @@ delta = 1
 # equations
 def du_dt(u,v):
     term_1 = alpha*u**2*(1-u)
-    term_2 = -beta*(u*v)*(gamma + u)
+    term_2 = -beta*(u*v)/(gamma + u)
     return term_1+term_2
 
 def dv_dt(u,v):
@@ -21,8 +21,7 @@ def dv_dt(u,v):
 
 # setup plot
 fig = plt.figure(figsize=(5,6))
-fig.tight_layout(pad=5.0)
-fig.subplots_adjust(bottom=0.4)
+fig.subplots_adjust(bottom=0.35)
 ax = fig.add_subplot(1,1,1)
 
 # data preparation functions
@@ -59,14 +58,13 @@ def update_plot(*args):
     fig.canvas.draw()
 
 # prepare data
-u = np.linspace(0,2,20)
-v = np.linspace(0,2,20)
+u = np.linspace(0,2,30)
+v = np.linspace(0,2,30)
 U, V = np.meshgrid(u, v)
 DU, DV, clrMap = prepare_derivative_data(U,V)
 
 # plot quivers
-Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.005, headwidth=2)
-ax.grid()
+Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.003, headwidth=3, headlength=5)
 
 # sliders
 alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=1, valmax=3, valinit=alpha, valstep=0.01)
@@ -78,7 +76,6 @@ alpha_slider.on_changed(update_plot)
 beta_slider.on_changed(update_plot)
 gamma_slider.on_changed(update_plot)
 delta_slider.on_changed(update_plot)
-
 
 # display
 plt.show()
