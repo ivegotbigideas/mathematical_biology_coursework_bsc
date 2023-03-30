@@ -29,8 +29,8 @@ def nullcline_2(u):
 fig = plt.figure(figsize=(5,6))
 fig.subplots_adjust(bottom=0.35)
 ax = fig.add_subplot(1,1,1)
-ax.set_xlim(-0.05, 2.05)
-ax.set_ylim(-0.05, 2.05)
+ax.set_xlim(-0.05, 1.3)
+ax.set_ylim(-0.05, 1.3)
 
 # data preparation functions
 def prepare_derivative_data(U,V):
@@ -50,8 +50,8 @@ def prepare_derivative_data(U,V):
     return DU, DV, clrMap
 
 # prepare data
-u = np.linspace(0,2,30)
-v = np.linspace(0,2,30)
+u = np.linspace(0,1.25,30)
+v = np.linspace(0,1.25,30)
 U, V = np.meshgrid(u, v)
 DU, DV, clrMap = prepare_derivative_data(U,V)
 
