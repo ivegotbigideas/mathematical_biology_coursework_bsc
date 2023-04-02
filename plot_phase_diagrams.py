@@ -7,7 +7,7 @@ import scipy as sp
 alpha = 1
 beta = 1
 gamma = 1
-delta = 1
+delta = 0.75
 
 # equations
 def du_dt(u,v):
