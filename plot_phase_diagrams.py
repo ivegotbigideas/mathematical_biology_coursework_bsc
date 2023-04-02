@@ -56,13 +56,13 @@ U, V = np.meshgrid(u, v)
 DU, DV, clrMap = prepare_derivative_data(U,V)
 
 # plot quivers
-Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.002, headwidth=3, headlength=5)
+Q = ax.quiver(U, V, DU, DV, pivot='mid', width=0.002, headwidth=3, headlength=5, zorder=5)
 
 # plot nullclines
-null_1, = ax.plot(u,nullcline_1(u), color="b")
-null_2, = ax.plot(u,nullcline_2(u), color="orange")
-null_3_vert = ax.axvline(0, color="b")
-null_4_horiz = ax.axhline(0, color="orange")
+null_1, = ax.plot(u,nullcline_1(u), color="cyan", zorder=-5)
+null_2, = ax.plot(u,nullcline_2(u), color="orange", zorder=-5)
+null_3_vert = ax.axvline(0, color="cyan", zorder=-5)
+null_4_horiz = ax.axhline(0, color="orange", zorder=-5)
 
 # update plot function
 def update_plot(*args):
@@ -87,10 +87,10 @@ def update_plot(*args):
     fig.canvas.draw()
 
 # sliders
-alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=0.001, valmax=3, valinit=alpha, valstep=0.01)
-beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=0.001, valmax=3, valinit=beta, valstep=0.01)
-gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=0.001, valmax=3, valinit=gamma, valstep=0.01)
-delta_slider = Slider(plt.axes([0.25, 0.25, 0.65, 0.03]), 'delta slider', valmin=0.001, valmax=3, valinit=delta, valstep=0.01)
+alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=0, valmax=3, valinit=alpha, valstep=0.01)
+beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=0, valmax=3, valinit=beta, valstep=0.01)
+gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=0, valmax=3, valinit=gamma, valstep=0.01)
+delta_slider = Slider(plt.axes([0.25, 0.25, 0.65, 0.03]), 'delta slider', valmin=0, valmax=3, valinit=delta, valstep=0.01)
 
 alpha_slider.on_changed(update_plot)
 beta_slider.on_changed(update_plot)
