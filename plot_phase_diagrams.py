@@ -61,7 +61,9 @@ def evaluate_stability(fixed_point):
     eigenvalues,eigenvectors = np.linalg.eig(linearisation_matrix)
 
     stability = "unknown"
-    if all(np.real(eigenvalue) < 0 for eigenvalue in eigenvalues):
+    if any(np.real(eigenvalue) == 0 for eigenvalue in eigenvalues):
+        stability = "unknown"
+    elif all(np.real(eigenvalue) < 0 for eigenvalue in eigenvalues):
         stability = "stable"
     elif any(np.real(eigenvalue) > 0 for eigenvalue in eigenvalues):
         stability = "unstable"
