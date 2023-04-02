@@ -103,7 +103,7 @@ def find_fixed_points():
     return fixed_points
 
 # setup plot
-fig = plt.figure(figsize=(5,6))
+fig = plt.figure(figsize=(6,6))
 fig.subplots_adjust(bottom=0.35)
 ax = fig.add_subplot(1,1,1)
 ax.set_xlim(-0.05, 1.3)
