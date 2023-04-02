@@ -5,7 +5,7 @@ import scipy as sp
 
 # constant defaults
 alpha = 1
-beta = 1
+beta = 2
 gamma = 1
 delta = 2
 
@@ -36,7 +36,7 @@ def nullcline_2(u):
 
 def df_du(u,v):
     term_1 = alpha*u*(2-3*u)
-    term_2 = -beta*v*gamma/((gamma+u)**2)
+    term_2 = -(beta*v*gamma)/((gamma+u)**2)
     return term_1 + term_2
 
 def df_dv(u,v):
@@ -46,7 +46,7 @@ def dg_du(u,v):
     return -delta*v
 
 def dg_dv(u,v):
-    return 1-2*v-delta-u
+    return 1-2*v-delta*u
 
 def jacobian(coords):
     u = coords[0]
