@@ -5,9 +5,9 @@ import scipy as sp
 
 # constant defaults
 alpha = 1
-beta = 2
+beta = 1
 gamma = 1
-delta = 2
+delta = 1
 
 # equations
 def du_dt(u,v):
