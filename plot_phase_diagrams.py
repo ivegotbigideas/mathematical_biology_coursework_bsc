@@ -180,7 +180,7 @@ plot_traj()
 
 # update plot function
 def update_plot(*args):
-    # remove trajectories
+    # remove trajectory
     ax.lines.pop(-1)
 
     # remove markers
