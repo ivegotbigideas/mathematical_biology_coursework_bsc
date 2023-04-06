@@ -9,6 +9,9 @@ beta = 1
 gamma = 1
 delta = 1.5
 
+# marker storage
+marker_store = []
+
 # equations
 def du_dt(u,v):
     try:
@@ -106,7 +109,7 @@ def find_fixed_points():
 
 # setup plot
 fig = plt.figure(figsize=(8,8))
-#fig.subplots_adjust(bottom=0.35)
+fig.subplots_adjust(bottom=0.35)
 ax = fig.add_subplot(1,1,1)
 ax.set_xlim(-0.05, 1.3)
 ax.set_ylim(-0.05, 1.3)
@@ -131,15 +134,16 @@ def prepare_derivative_data(U,V):
 # plot fixed points function
 def plot_fixed_points(*args):
     fixed_points = find_fixed_points()
-    C = []
+    global marker_store
+    marker_store = []
     for point in fixed_points:
         stability = evaluate_stability(point)
         if stability == "stable":
-            C.append(ax.plot(point[0], point[1],"red", marker = "x", markersize = 7.0))
+            marker_store.append(ax.plot(point[0], point[1],"red", marker = "x", markersize = 7.0))
         elif stability == "unstable":
-            C.append(ax.plot(point[0], point[1],"red", marker = "o", markersize = 7.0))
+            marker_store.append(ax.plot(point[0], point[1],"red", marker = "o", markersize = 7.0))
         else:
-            C.append(ax.plot(point[0], point[1],"red", marker = "^", markersize = 7.0))
+            marker_store.append(ax.plot(point[0], point[1],"red", marker = "^", markersize = 7.0))
 
 # prepare data
 u = np.linspace(0,1.25,30)
@@ -159,21 +163,35 @@ null_4_horiz = ax.axhline(0, color="orange", zorder=-5)
 # plot fixed points
 plot_fixed_points()
 
-# plot trajectory
-init_con = [0.436,0.355]
-t = np.linspace(0,500,500)
-traj = sp.integrate.odeint(two_dim_system, init_con, t)
-x = []
-y = []
-for traj_point in traj:
-    x.append(traj_point[0])
-    y.append(traj_point[1])
-plt.plot(x, y)
+# plot trajectory function
+def plot_traj():
+    init_con = [0.436,0.355]
+    t = np.linspace(0,500,500)
+    traj = sp.integrate.odeint(two_dim_system, init_con, t)
+    x = []
+    y = []
+    for traj_point in traj:
+        x.append(traj_point[0])
+        y.append(traj_point[1])
+    ax.plot(x, y, color="green")
+
+# plot trajectories
+plot_traj()
 
 # update plot function
 def update_plot(*args):
+    # remove trajectories
+    ax.lines.pop(-1)
+
+    # remove markers
+    global marker_store
+    for marker in marker_store:
+        ax.lines.remove(marker[0])
+
+    # plot new fixed points
+    plot_fixed_points()
+
     # update network values
-    """
     global alpha
     global beta
     global gamma
@@ -182,7 +200,6 @@ def update_plot(*args):
     beta = beta_slider.val
     gamma = gamma_slider.val
     delta = delta_slider.val
-    """
 
     # update derivative data
     DU, DV, clrMap = prepare_derivative_data(U,V)
@@ -192,10 +209,12 @@ def update_plot(*args):
     null_1.set_data(u, nullcline_1(u))
     null_2.set_data(u, nullcline_2(u))
 
+    # plot trajectories
+    plot_traj()
+
     fig.canvas.draw()
 
 # sliders
-"""
 alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=0, valmax=3, valinit=alpha, valstep=0.01)
 beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=0, valmax=3, valinit=beta, valstep=0.01)
 gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=0, valmax=3, valinit=gamma, valstep=0.01)
@@ -205,14 +224,11 @@ alpha_slider.on_changed(update_plot)
 beta_slider.on_changed(update_plot)
 gamma_slider.on_changed(update_plot)
 delta_slider.on_changed(update_plot)
-"""
 
 # button
-"""
-ax_fp = fig.add_axes([0.81, 0.01, 0.1, 0.075])
-fp_btn = Button(ax_fp, 'FPs')
+ax_fp_btn = fig.add_axes([0.81, 0.01, 0.1, 0.075])
+fp_btn = Button(ax_fp_btn, 'FPs')
 fp_btn.on_clicked(plot_fixed_points)
-"""
 
 # display
 plt.show()
