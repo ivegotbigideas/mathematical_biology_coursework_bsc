@@ -165,7 +165,7 @@ plot_fixed_points()
 
 # plot trajectory function
 def plot_traj():
-    init_con = [0.436,0.355]
+    init_con = [0.142,1.08]
     t = np.linspace(0,500,500)
     traj = sp.integrate.odeint(two_dim_system, init_con, t)
     x = []
@@ -218,7 +218,7 @@ def update_plot(*args):
 alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=0, valmax=3, valinit=alpha, valstep=0.01)
 beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=0, valmax=3, valinit=beta, valstep=0.01)
 gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=0, valmax=3, valinit=gamma, valstep=0.01)
-delta_slider = Slider(plt.axes([0.25, 0.25, 0.65, 0.03]), 'delta slider', valmin=0, valmax=3, valinit=delta, valstep=0.01)
+delta_slider = Slider(plt.axes([0.25, 0.25, 0.65, 0.03]), 'delta slider', valmin=0, valmax=100, valinit=delta, valstep=0.01)
 
 alpha_slider.on_changed(update_plot)
 beta_slider.on_changed(update_plot)
