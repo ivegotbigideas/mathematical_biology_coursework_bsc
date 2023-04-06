@@ -225,10 +225,5 @@ beta_slider.on_changed(update_plot)
 gamma_slider.on_changed(update_plot)
 delta_slider.on_changed(update_plot)
 
-# button
-ax_fp_btn = fig.add_axes([0.81, 0.01, 0.1, 0.075])
-fp_btn = Button(ax_fp_btn, 'FPs')
-fp_btn.on_clicked(plot_fixed_points)
-
 # display
 plt.show()
