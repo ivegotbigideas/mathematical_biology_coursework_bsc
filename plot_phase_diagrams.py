@@ -7,7 +7,7 @@ import scipy as sp
 alpha = 1
 beta = 1
 gamma = 1
-delta = 0.75
+delta = 1.5
 
 # equations
 def du_dt(u,v):
@@ -23,7 +23,7 @@ def dv_dt(u,v):
     term_2 = -delta*u*v
     return term_1 + term_2
 
-def two_dim_system(coords):
+def two_dim_system(coords, t=None):
     u = coords[0]
     v = coords[1]
     return [du_dt(u,v), dv_dt(u,v)]
@@ -105,8 +105,8 @@ def find_fixed_points():
     return fixed_points
 
 # setup plot
-fig = plt.figure(figsize=(6,6))
-fig.subplots_adjust(bottom=0.35)
+fig = plt.figure(figsize=(8,8))
+#fig.subplots_adjust(bottom=0.35)
 ax = fig.add_subplot(1,1,1)
 ax.set_xlim(-0.05, 1.3)
 ax.set_ylim(-0.05, 1.3)
@@ -159,9 +159,21 @@ null_4_horiz = ax.axhline(0, color="orange", zorder=-5)
 # plot fixed points
 plot_fixed_points()
 
+# plot trajectory
+init_con = [0.436,0.355]
+t = np.linspace(0,500,500)
+traj = sp.integrate.odeint(two_dim_system, init_con, t)
+x = []
+y = []
+for traj_point in traj:
+    x.append(traj_point[0])
+    y.append(traj_point[1])
+plt.plot(x, y)
+
 # update plot function
 def update_plot(*args):
     # update network values
+    """
     global alpha
     global beta
     global gamma
@@ -170,6 +182,7 @@ def update_plot(*args):
     beta = beta_slider.val
     gamma = gamma_slider.val
     delta = delta_slider.val
+    """
 
     # update derivative data
     DU, DV, clrMap = prepare_derivative_data(U,V)
@@ -182,6 +195,7 @@ def update_plot(*args):
     fig.canvas.draw()
 
 # sliders
+"""
 alpha_slider = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'alpha slider', valmin=0, valmax=3, valinit=alpha, valstep=0.01)
 beta_slider = Slider(plt.axes([0.25, 0.15, 0.65, 0.03]), 'beta slider', valmin=0, valmax=3, valinit=beta, valstep=0.01)
 gamma_slider = Slider(plt.axes([0.25, 0.2, 0.65, 0.03]), 'gamma slider', valmin=0, valmax=3, valinit=gamma, valstep=0.01)
@@ -191,11 +205,14 @@ alpha_slider.on_changed(update_plot)
 beta_slider.on_changed(update_plot)
 gamma_slider.on_changed(update_plot)
 delta_slider.on_changed(update_plot)
+"""
 
 # button
+"""
 ax_fp = fig.add_axes([0.81, 0.01, 0.1, 0.075])
 fp_btn = Button(ax_fp, 'FPs')
 fp_btn.on_clicked(plot_fixed_points)
+"""
 
 # display
 plt.show()
